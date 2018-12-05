@@ -5,8 +5,6 @@ from django.utils import timezone
 
 
 class Post(models.Model):
-    SSID = models.CharField(max_length=200)
-    Psk = models.CharField(max_length=200)
     SIP = models.CharField(max_length=200)
     Netmask = models.CharField(max_length=200)
     Gateway = models.CharField(max_length=200)

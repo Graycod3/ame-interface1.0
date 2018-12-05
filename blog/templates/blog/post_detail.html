@@ -1,0 +1,21 @@
+{% extends 'blog/base.html' %}
+
+<html>
+     <head>
+        <title>AME-DEVICE CONFIGURATION SITE</title>
+     </head>
+
+     <body>
+       <div class="post">
+          
+          <p>{{ post.SIP}}</p>
+          <p>{{ post.Netmask}}</p>
+          <p>{{ post.Gateway}}</p>
+          <p>{{ post.NetworkIP}}</p>
+          <p>{{ post.Broadcast}}</p>
+          <p>{{ post.Dns_nameservers|linebreaksbr}}</P>
+
+       </div>
+     </body>
+</html>
+

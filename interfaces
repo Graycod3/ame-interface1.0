@@ -1,0 +1,12 @@
+source-directory /etc/network/interfaces.d 
+auto lo 
+iface lo inet loopback 
+auto eth0 
+iface eth0 inet static 
+address 78
+	netmask 99
+	network 009
+	broadcast 787
+	gateway 09
+	dns-nameservers 678
+
