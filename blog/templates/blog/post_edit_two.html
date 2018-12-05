@@ -1,0 +1,13 @@
+{% extends 'blog/base_two.html' %}
+
+
+{% block content %}
+    <h2>DHCP Configuration Page</h2>
+
+    <form method="POST" class="post-form">{% csrf_token %}
+     {{ dhcp.as_p }}
+     <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+
+{% endblock %}
+

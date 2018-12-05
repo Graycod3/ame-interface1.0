@@ -1,0 +1,22 @@
+{% load static %}
+
+<html>
+    <body>
+        <div class="page-header">
+            <a href="{% url 'post_list_four' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+            <h1>Wi-Fi DHCP Configuration</h1>
+        </div>
+
+        <div class="content container">
+            <div class="row">
+                <div class="col-md-8">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+
+    </body>
+
+</html>
+
