@@ -1,3 +1,4 @@
+
 source-directory /etc/network/interfaces.d 
 auto lo 
 iface lo inet loopback 
@@ -10,6 +11,6 @@ iface wlan0 inet static
 	address 192.168.1.37
 	netmask 255.255.255.0
 	network 192.168.0.0
-	broadcast 192.168.1.1
+	broadcast 192.168.1.255
 	gateway 192.168.1.1
 	dns-nameservers 8.8.8.8

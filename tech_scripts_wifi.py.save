@@ -7,8 +7,6 @@ import uuid
 import subprocess
 import os
 import django
-from shutil import copyfile
-
 
 from django.core.wsgi import get_wsgi_application
 application = get_wsgi_application()
@@ -43,7 +41,7 @@ def InterfaceWrite():
         configString = handle.read()
         config= json.loads(configString)
 
-    interface = open("/etc/network/interfaces","w+")
+    interface = open("interfaces","w+")
     interface.write("source-directory /etc/network/interfaces.d \n")
     interface.write ("auto lo \n")
     interface.write ("iface lo inet loopback \n")
@@ -66,7 +64,7 @@ def InterfaceWrite():
     interface.write ("\t"+"wpa-ssid "+'"'+ssid+'"'+"\n")
     interface.write ("\t"+"wpa-psk "+'"'+password+'"'+"\n")
     interface.write ("\t"+"address "+StatIP+"\n")
-    interface.write("\t"+"netmask "+netmask+"\n")
+    interface.write ("\t"+"netmask "+netmask+"\n")
 
     interface.write("\t"+"network "+network+"\n")
     interface.write("\t"+"broadcast "+broadcast+"\n")
@@ -77,48 +75,49 @@ def InterfaceWrite():
 
 def CheckConnection():
     ps = subprocess.Popen(['iwconfig'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-    
-    output = subprocess.check_output(('grep', 'ESSID'), stdin=ps.stdout).decode()
-    print(output)
-    status = output.split('ESSID:')[1].split('/')[0]
-    print(status)
-    if status == 'off':
-        print("Wi-Fi not connected")#do something about this, reload the page or sum
-        cmd = 'bash -c /home/techuser/turndown.sh'
-        process=subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
-        process.wait()
-        print(process.returncode)
-        assert process.returncode == 0
-
-        #subprocess.call(['bash','/home/techuser/turndown.sh'])
-        copyfile('/home/pi/Docker/NewP/NewProject/interfaces.bak','/etc/network/interfaces')
-        print("Copied back original configs")
-        cmd = 'bash -c /home/techuser/turnup.sh'
-        process=subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
-        process.wait()
-        assert process.returncode == 0
+    try:
+        output = subprocess.check_output(('grep', 'ESSID'), stdin=ps.stdout).decode()
+        status = outdef CheckConnection():
+    ps = subprocess.Popen(['iwconfig'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    try:
+        output = subprocess.check_output(('grep', 'ESSID'), stdin=ps.stdout).decode()
+        status = output.split('ESSID:')[1].split('/')[0]
+        if status == 'off':
+            print("Wi-Fi not connected")#do something about this, reload the page or sum
+            return False
+        else:
+            print("Wi-Fi connected")
+            return True
+    except subprocess.CalledProcessError:
+        # grep did not match any lines
+        print("No wireless networks connected")
+        return Falseput.split('ESSID:')[1].split('/')[0]
+        if status == 'off':
+            print("Wi-Fi not connected")#do something about this, reload the page or sum
+            return False
+        else:
+            print("Wi-Fi connected")
+            return True
+    except subprocess.CalledProcessError:
+        # grep did not match any lines
+        print("No wireless networks connected")
         return False
-        #call(['bash','/home/techuser/turnup.sh'])
-    else:
-        print("Wi-Fi connected NOW ")
-        return True
-    #except subprocess.CalledProcessError:
-    #    # grep did not match any lines
-    #    print("No wireless networks connected")
-     #   return False
 
 if __name__ =='__main__':
     con =False
     config = {}
-    print("Turning down pi network servies")
-    subprocess.call(['bash','/home/techuser/turndown.sh'])
-    print("getting the info now")
-    info()
-    print("writing the info to the interfaces file")
-    InterfaceWrite()
-    subprocess.call(['bash','/home/techuser/turnup.sh'])
-    CheckConnection()
-       # print("No net")
-       # copyfile(['/home/pi/Docker/NewP/NewProject/interfaces.bak','/etc/network/interfaces'])
-      #   print("copied file bak")
-
+    #Choice_two = 0
+    print("Enter The Dragon Code")
+    while con == False:
+        print("Turning down pi network servies")
+        #subprocess.call(['bash','/home/techuser/turndown.sh'])
+        print("getting the info now")
+        info()
+        print("writing the info to the interfaces file")
+        InterfaceWrite()
+        subprocess.call(['bash','/home/techuser/turnup.sh'])
+        con = CheckConnection()
+        if CheckConnection()==True:
+             con = CheckConnection()
+        else:
+             

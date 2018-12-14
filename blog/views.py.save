@@ -47,10 +47,38 @@ def post_list_three(request):
        if form.is_valid():
            ConfigInfo=form.save(commit=False)
            ConfigInfo.save()
-           subprocess.Popen(["python3", "/home/pi/Docker/NewP/NewProject/tech_scripts_wifi.py","-m"])
+ copyfile(['/home/pi/Docker/NewP/NewProject/interfaces.bak','/etc/network/interfaces'])           subprocess.Popen(["python3", "/home/pi/Docker/NewP/NewProject/tech_scripts_wifi.py","-m"])
+
+           if(CheckConnection() == False):
+               print("No net")
+               copyfile(['/home/pi/Docker/NewP/NewProject/interfaces.bak','/etc/network/interfaces'])
+               print("copied file bak")
+               #form =ConfigInfoForm(request.POST)
+               #if form.is_valid():
+                   #ConfigInfo=form.save(commit=False)
+                   #ConfigInfo.save()
+                   #subprocess.Popen(["python3", "/home/pi/Docker/NewP/NewProject/tech_scripts_wifi.py","-m"])
     else:
         form=ConfigInfoForm()
     return render(request, 'blog/post_edit_wifi.html', {'form':form})
+
+
+def CheckConnection():
+    ps = subprocess.Popen(['iwconfig'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    try:
+        output = subprocess.check_output(('grep', 'ESSID'), stdin=ps.stdout).decode()
+        status = output.split('ESSID:')[1].split('/')[0]
+        if status == 'off':
+            print("Wi-Fi not connected")#do something about this, reload the page or sum
+            return False
+        else:
+            print("Wi-Fi connected")
+            return True
+    except subprocess.CalledProcessError:
+        # grep did not match any lines
+        print("No wireless networks connected")
+        return False
+
 
 
 def post_new(request):
